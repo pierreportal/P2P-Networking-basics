@@ -24,8 +24,8 @@
   },
   "contributors": [],
   "scripts": {
-    "dev": "",
-    "test": ""
+    "listener": "node src/listener.js",
+    "dialer": "node src/dialer.js"
   },
   "dependencies": {
     "@chainsafe/libp2p-noise": "^16.0.0",
