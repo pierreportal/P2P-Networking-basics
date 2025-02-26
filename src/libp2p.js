@@ -1,27 +1,18 @@
-import { noise } from '@chainsafe/libp2p-noise';
-import { yamux } from '@chainsafe/libp2p-yamux';
-import { mdns } from '@libp2p/mdns';
-import { tcp } from '@libp2p/tcp';
-import { webSockets } from '@libp2p/websockets';
-import defaultsDeep from '@nodeutils/defaults-deep';
-import { createLibp2p as create } from 'libp2p';
+import defaultsDeep from "@nodeutils/defaults-deep";
+import { createLibp2p as create } from "libp2p";
+import { identify } from "@libp2p/identify";
+import { kadDHT } from "@libp2p/kad-dht";
+import { noise } from "@chainsafe/libp2p-noise";
+import { tcp } from "@libp2p/tcp";
 
-export async function createLibp2p (_options) {
+export async function createLibp2p(_options) {
   const defaults = {
-    transports: [
-      tcp(),
-      webSockets()
-    ],
-    streamMuxers: [
-      yamux()
-    ],
-    connectionEncrypters: [
-      noise()
-    ],
-    peerDiscovery: [
-      mdns()
-    ]
+    transports: [tcp()],
+    connectionEncryption: [noise()],
+    dht: kadDHT(),
+    services: {
+      identify: identify(),
+    },
   };
-
   return create(defaultsDeep(_options, defaults));
-};
+}
